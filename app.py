@@ -4,6 +4,25 @@ import numpy as np
 import joblib
 import os
 
+
+import os
+import streamlit as st
+import joblib
+
+@st.cache_resource
+def load_assets():
+    model_path = os.path.join("sample_data", "gb_best_model.joblib")
+    pre_path = os.path.join("sample_data", "preprocessor.joblib")
+
+    if not os.path.exists(model_path) or not os.path.exists(pre_path):
+        st.error("❌ Model or preprocessor file not found in sample_data/.  "
+                 "Upload gb_best_model.joblib and preprocessor.joblib to your repo.")
+        st.stop()
+
+    model = joblib.load(model_path)
+    pre = joblib.load(pre_path)
+    return model, pre
+
 # ----------------------------
 # 🔧 PAGE CONFIG & STYLING
 # ----------------------------
@@ -129,3 +148,4 @@ st.markdown("""
 ---
 👩‍⚕️ *Developed for diabetic patient monitoring and healthcare analytics.*
 """)
+
